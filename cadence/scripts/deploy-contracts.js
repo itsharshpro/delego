@@ -7,7 +7,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const FLOW_CLI = 'flow'; // Ensure Flow CLI is installed and in PATH
-const TESTNET_ACCOUNT = 'itsharshpro'; // Using your account from flow.json
+const TESTNET_ACCOUNT = 'harshpro'; // Using your account from flow.json
 
 const CONTRACTS = [
   {
@@ -26,9 +26,9 @@ const CONTRACTS = [
 
 const DEPLOYMENT_ADDRESSES = {
   testnet: {
-    FlowPassNFT: 'e8c1074402c166c7', // Already deployed
-    DelegationNFT: 'e8c1074402c166c7', // Already deployed
-    SelfAttestationRegistry: 'e8c1074402c166c7' // Will be deployed
+    FlowPassNFT: '1635dff04f103087', // Will be deployed to new account
+    DelegationNFT: '1635dff04f103087', // Will be deployed to new account
+    SelfAttestationRegistry: '1635dff04f103087' // Will be deployed to new account
   }
 };
 
