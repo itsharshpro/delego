@@ -1,6 +1,5 @@
-
 import { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Home, Search, User, Plus, TrendingUp, Share2 } from 'lucide-react';
 
 // Components
@@ -84,11 +83,14 @@ function App() {
 
               {/* Main Content */}
               <main className="flex-1 overflow-hidden">
-                {activeTab === 'dashboard' && <Dashboard />}
-                {activeTab === 'marketplace' && <Marketplace />}
-                {activeTab === 'my-subscriptions' && <MySubscriptions />}
-                {activeTab === 'add-subscription' && <AddSubscription />}
-                {activeTab === 'profile' && <Profile />}
+                <Routes>
+                  <Route path="/" element={<Navigate to="/dashboard" replace />} />
+                  <Route path="/dashboard" element={<Dashboard />} />
+                  <Route path="/marketplace" element={<Marketplace />} />
+                  <Route path="/my-subscriptions" element={<MySubscriptions />} />
+                  <Route path="/add-subscription" element={<AddSubscription />} />
+                  <Route path="/profile" element={<Profile />} />
+                </Routes>
               </main>
             </div>
           </div>
