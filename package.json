@@ -1,0 +1,26 @@
+{
+  "name": "delego",
+  "version": "1.0.0",
+  "description": "NFT-Based Subscription System with Time-Bound Delegation & Privacy-First Identity Verification",
+  "scripts": {
+    "frontend": "cd frontend && npm run dev",
+    "backend": "cd backend && npm run dev",
+    "dev": "concurrently \"npm run frontend\" \"npm run backend\"",
+    "install:frontend": "cd frontend && npm install",
+    "install:backend": "cd backend && npm install",
+    "install:all": "npm run install:frontend && npm run install:backend",
+    "build:frontend": "cd frontend && npm run build",
+    "deploy:contracts": "node cadence/scripts/deploy-contracts.js",
+    "test:contracts": "flow test"
+  },
+  "keywords": ["flow", "blockchain", "nft", "subscriptions", "zkp", "delegation"],
+  "author": "Delego Team",
+  "license": "MIT",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "workspaces": [
+    "frontend",
+    "backend"
+  ]
+}

@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color: rgba(255, 255, 255, 0.95);
+  background-color: rgb(10, 10, 10);
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: rgb(10, 10, 10);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+#root {
+  min-height: 100vh;
+  background-color: rgb(10, 10, 10);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgb(20, 20, 20);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(60, 60, 60);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(80, 80, 80);
+}
+
+/* Focus styles */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid rgb(100, 100, 255);
+  outline-offset: 2px;
+}
+
+/* Custom button styles for Delego */
+.btn-primary {
+  @apply bg-white text-black font-semibold px-6 py-3 rounded-lg hover:bg-gray-200 transition-colors duration-200;
+}
+
+.btn-secondary {
+  @apply bg-gray-800 text-white font-semibold px-6 py-3 rounded-lg border border-gray-600 hover:bg-gray-700 transition-colors duration-200;
+}
+
+.btn-danger {
+  @apply bg-red-900 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-800 transition-colors duration-200;
+}
+
+/* Card styles */
+.card {
+  @apply bg-gray-900 rounded-xl border border-gray-800 p-6 shadow-lg;
+}
+
+.card-header {
+  @apply border-b border-gray-800 pb-4 mb-4;
+}
+
+.card-title {
+  @apply text-xl font-bold text-white;
+}
+
+.card-description {
+  @apply text-gray-400 mt-1;
+}
+
+/* Input styles */
+.input-field {
+  @apply bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200;
+}
+
+/* Status indicators */
+.status-active {
+  @apply bg-green-900 text-green-300 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.status-expired {
+  @apply bg-red-900 text-red-300 px-3 py-1 rounded-full text-sm font-medium;
+}
+
+.status-pending {
+  @apply bg-yellow-900 text-yellow-300 px-3 py-1 rounded-full text-sm font-medium;
+}
