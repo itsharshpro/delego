@@ -21,6 +21,10 @@ const CONTRACTS = [
   {
     name: 'SelfAttestationRegistry',
     path: './contracts/SelfAttestationRegistry.cdc'
+  },
+  {
+    name: 'NetflixNFT',
+    path: './contracts/NetflixNFT.cdc'
   }
 ];
 
@@ -28,7 +32,8 @@ const DEPLOYMENT_ADDRESSES = {
   testnet: {
     FlowPassNFT: '1635dff04f103087', // Will be deployed to new account
     DelegationNFT: '1635dff04f103087', // Will be deployed to new account
-    SelfAttestationRegistry: '1635dff04f103087' // Will be deployed to new account
+    SelfAttestationRegistry: '1635dff04f103087', // Will be deployed to new account
+    NetflixNFT: '1635dff04f103087' // Will be deployed to new account
   }
 };
 

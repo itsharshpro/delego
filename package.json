@@ -1,6 +1,7 @@
 {
   "name": "delego",
   "version": "1.0.0",
+  "type": "module",
   "description": "NFT-Based Subscription System with Time-Bound Delegation & Privacy-First Identity Verification",
   "scripts": {
     "frontend": "cd frontend && npm run dev",

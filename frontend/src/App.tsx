@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Home, Search, User, Plus, TrendingUp, Share2 } from 'lucide-react';
 
 // Components
@@ -10,6 +10,7 @@ import Marketplace from './components/Marketplace';
 import MySubscriptions from './components/MySubscriptions';
 import AddSubscription from './components/AddSubscription';
 import Profile from './components/Profile';
+import NetflixAccessPage from './components/NetflixAccessPage';
 
 // Context
 import { WalletProvider } from './contexts/WalletContext';

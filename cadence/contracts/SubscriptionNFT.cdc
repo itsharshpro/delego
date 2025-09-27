@@ -374,23 +374,29 @@ access(all) contract SubscriptionNFT: NonFungibleToken {
         access(all) fun getSubscriptionInfo(id: UInt64, owner: Address): {String: AnyStruct}? {
             let ownerCollection = getAccount(owner)
                 .capabilities.get<&SubscriptionNFT.Collection>(SubscriptionNFT.CollectionPublicPath)
-                .borrow() ?? return nil
+                .borrow()
+            if ownerCollection == nil {
+                return nil
+            }
 
-            let subscriptionRef = ownerCollection.borrowSubscription(id: id) ?? return nil
+            let subscriptionRef = ownerCollection!.borrowSubscription(id: id)
+            if subscriptionRef == nil {
+                return nil
+            }
 
             return {
-                "id": subscriptionRef.id,
-                "platform": subscriptionRef.platform,
-                "planName": subscriptionRef.planName,
-                "pricePerDay": subscriptionRef.pricePerDay,
-                "maxRentalDuration": subscriptionRef.maxRentalDuration,
-                "isAvailable": subscriptionRef.isAvailable,
-                "isRented": subscriptionRef.isCurrentlyRented(),
-                "description": subscriptionRef.description,
-                "features": subscriptionRef.features,
-                "rating": subscriptionRef.rating,
-                "rentalCount": subscriptionRef.rentalCount,
-                "totalEarnings": subscriptionRef.totalEarnings
+                "id": subscriptionRef!.id,
+                "platform": subscriptionRef!.platform,
+                "planName": subscriptionRef!.planName,
+                "pricePerDay": subscriptionRef!.pricePerDay,
+                "maxRentalDuration": subscriptionRef!.maxRentalDuration,
+                "isAvailable": subscriptionRef!.isAvailable,
+                "isRented": subscriptionRef!.isCurrentlyRented(),
+                "description": subscriptionRef!.description,
+                "features": subscriptionRef!.features,
+                "rating": subscriptionRef!.rating,
+                "rentalCount": subscriptionRef!.rentalCount,
+                "totalEarnings": subscriptionRef!.totalEarnings
             }
         }
     }
