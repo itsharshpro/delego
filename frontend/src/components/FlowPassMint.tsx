@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Shield, Upload, CheckCircle, AlertCircle } from 'lucide-react';
+import { Shield, CheckCircle, AlertCircle } from 'lucide-react';
 import { useWallet } from '../contexts/WalletContext';
 import { useFlow } from '../contexts/FlowContext';
 
@@ -71,8 +71,8 @@ const FlowPassMint: React.FC<FlowPassMintProps> = ({ onComplete }) => {
 
       setSuccess(true);
       setTimeout(() => onComplete(), 2000);
-    } catch (err: any) {
-      setError(err.message || 'Failed to mint FlowPass NFT');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Failed to mint FlowPass NFT');
     } finally {
       setLoading(false);
     }

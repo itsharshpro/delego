@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Wallet, Shield, Users, QrCode, CheckCircle } from 'lucide-react';
 
@@ -9,7 +9,7 @@ import FlowPassMint from './components/FlowPassMint';
 import ZKProofGenerator from './components/ZKProofGenerator';
 import DelegationManager from './components/DelegationManager';
 import SubscriptionAccess from './components/SubscriptionAccess';
-import Navigation from './components/Navigation';
+// import Navigation from './components/Navigation';
 
 // Context
 import { WalletProvider } from './contexts/WalletContext';
