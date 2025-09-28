@@ -1,7 +1,5 @@
 # Delego - NFT-Based Subscription Sharing Platform
 
-![Delego Banner](https://img.shields.io/badge/Delego-Subscription%20Sharing-purple?style=for-the-badge&logo=ethereum)
-
 Delego is a revolutionary decentralized platform built on Flow blockchain that enables secure sharing and renting of digital subscriptions using NFTs and Zero-Knowledge proofs. The platform provides privacy-first identity verification and time-bound delegation for subscription access.
 
 ## 🌟 Key Features
@@ -311,87 +309,6 @@ flow project deploy --network=testnet
 # Deploy to Flow Mainnet
 flow project deploy --network=mainnet
 
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (git checkout -b feature/amazing-feature)
-3. Commit your changes (git commit -m 'Add amazing feature')
-4. Push to the branch (git push origin feature/amazing-feature)
-5. Open a Pull Request
-
-### Development Setup
-
-bash
-# Install development dependencies
-npm install
-
-# Set up pre-commit hooks
-npx husky install
-
-# Run linting
-npm run lint
-
-# Format code
-npm run format
-
-
-## 📋 Development Roadmap
-
-### 🎯 *Phase 1: Foundation (Completed)*
-- ✅ Core NFT subscription architecture
-- ✅ ZK proof integration system
-- ✅ Flow blockchain integration
-- ✅ Self-attestation registry
-- ✅ Basic marketplace functionality
-
-### 🚀 *Phase 2: Platform Expansion (Q1 2025)*
-- [ ] Netflix subscription integration
-- [ ] Spotify premium sharing
-- [ ] Disney+ and streaming services
-- [ ] Mobile application (React Native)
-- [ ] Advanced ZK circuit implementations
-
-### 🌐 *Phase 3: Ecosystem Growth (Q2 2025)*
-- [ ] Cross-platform subscription bundles
-- [ ] DAO governance implementation
-- [ ] Staking and rewards system
-- [ ] Enterprise partnership program
-- [ ] Multi-chain bridge development
-
-### 🔮 *Phase 4: Advanced Features (Q3-Q4 2025)*
-- [ ] AI-powered subscription recommendations
-- [ ] Advanced analytics dashboard
-- [ ] Institutional investor tools
-- [ ] Global regulatory compliance
-- [ ] Layer 2 scaling solutions
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🤝 Contributing to Delego
-
-We welcome contributions from developers, researchers, and blockchain enthusiasts! Here's how you can get involved:
-
-### � Development Contributions
-- Submit bug reports and feature requests through GitHub Issues
-- Contribute code improvements via Pull Requests
-- Help with documentation and tutorials
-- Participate in code reviews and discussions
-
-### 🔬 Research & Innovation
-- Propose new ZK proof implementations
-- Suggest privacy-preserving mechanisms
-- Research subscription sharing economics
-- Explore cross-chain integration possibilities
-
-### 📚 Community & Education
-- Create educational content about subscription sharing
-- Host workshops and developer meetups
-- Translate documentation to other languages
-- Help onboard new developers to Flow ecosystem
-
 ## �🙏 Acknowledgments & Credits
 
 ### 🏗 *Core Technologies*
@@ -403,28 +320,5 @@ We welcome contributions from developers, researchers, and blockchain enthusiast
 - *Zero-Knowledge Proof Community*: Advancing privacy-preserving cryptographic research
 - *Flow Developer Community*: Contributing tools, libraries, and best practices
 - *Open Source Ecosystem*: Building the foundational technologies that make Delego possible
-
-### 🌟 *Special Thanks*
-- *Early Beta Testers*: Providing valuable feedback and identifying edge cases
-- *Security Researchers*: Helping strengthen our privacy and security implementations
-- *UX/UI Contributors*: Designing intuitive interfaces for complex blockchain interactions
-
----
-
-## 📞 Connect & Support
-
-### 🌐 *Community Links*
-- *Website*: [delego.app](https://delego.app)
-- *Documentation*: [docs.delego.app](https://docs.delego.app)
-- *Discord*: [Join our community](https://discord.gg/delego)
-- *Twitter*: [@DelegoProtocol](https://twitter.com/DelegoProtocol)
-
-### 💬 *Developer Support*
-- *GitHub Issues*: Report bugs and request features
-- *Developer Portal*: [dev.delego.app](https://dev.delego.app)
-- *Technical Support*: [support@delego.app](mailto:support@delego.app)
-- *Partnership Inquiries*: [partnerships@delego.app](mailto:partnerships@delego.app)
-
----
 
 *🚀 Built with passion on Flow Blockchain - Empowering the future of subscription sharing*
