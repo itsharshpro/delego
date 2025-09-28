@@ -1,6 +1,5 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import * as fcl from '@onflow/fcl';
-import MockFCLDialog from '../components/MockFCLDialog';
 
 interface FlowUser {
   addr: string | null;
@@ -16,7 +15,6 @@ interface WalletContextType {
   disconnect: () => Promise<void>;
   loading: boolean;
   isDemoMode: boolean;
-  showMockDialog: boolean;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
@@ -29,7 +27,6 @@ export function WalletProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
   const [isDemoMode, setIsDemoMode] = useState(false);
   const [connectionTimeout, setConnectionTimeout] = useState<number | null>(null);
-  const [showMockDialog, setShowMockDialog] = useState(false);
 
   useEffect(() => {
     // Initialize FCL
@@ -53,11 +50,10 @@ export function WalletProvider({ children }: { children: ReactNode }) {
 
   const connectWithFallback = async () => {
     setLoading(true);
-    setShowMockDialog(true);
     
-    // Show mock dialog for 2 seconds then auto-connect in demo mode
-    setTimeout(() => {
-      setShowMockDialog(false);
+    // Set up 10-second timeout for demo mode fallback
+    const timeout = window.setTimeout(() => {
+      console.log('Wallet connection timeout - switching to demo mode');
       setIsDemoMode(true);
       setUser({
         addr: DEMO_ADDRESS,
@@ -65,24 +61,29 @@ export function WalletProvider({ children }: { children: ReactNode }) {
         loggedIn: true
       });
       setLoading(false);
-    }, 2000);
+    }, 10000); // 10 seconds
+    
+    setConnectionTimeout(timeout);
+
+    try {
+      // Use the actual FCL authentication (real Flow wallet popup)
+      await fcl.authenticate();
+      
+      // If authentication succeeds, clear the timeout and demo mode
+      if (connectionTimeout) {
+        window.clearTimeout(connectionTimeout);
+      }
+      window.clearTimeout(timeout);
+      setConnectionTimeout(null);
+      setIsDemoMode(false);
+      setLoading(false);
+    } catch (error) {
+      console.error('Failed to connect wallet:', error);
+      // If authentication fails immediately, let timeout handle demo mode
+    }
   };
 
-  const handleMockConnect = () => {
-    setShowMockDialog(false);
-    setIsDemoMode(true);
-    setUser({
-      addr: DEMO_ADDRESS,
-      cid: null,
-      loggedIn: true
-    });
-    setLoading(false);
-  };
 
-  const handleMockClose = () => {
-    setShowMockDialog(false);
-    setLoading(false);
-  };
 
   const disconnect = async () => {
     setLoading(true);
@@ -124,17 +125,11 @@ export function WalletProvider({ children }: { children: ReactNode }) {
     disconnect,
     loading,
     isDemoMode,
-    showMockDialog,
   };
 
   return (
     <WalletContext.Provider value={value}>
       {children}
-      <MockFCLDialog
-        isOpen={showMockDialog}
-        onClose={handleMockClose}
-        onConnect={handleMockConnect}
-      />
     </WalletContext.Provider>
   );
 }
