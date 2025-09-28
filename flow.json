@@ -1,0 +1,44 @@
+{
+"contracts": {
+"DelegationNFT": "./cadence/contracts/DelegationNFT.cdc",
+"FlowPassNFT": "./cadence/contracts/FlowPassNFT.cdc",
+"NetflixNFT": "./cadence/contracts/NetflixNFT.cdc",
+"NetflixNFTSimple": "./cadence/contracts/NetflixNFTSimple.cdc",
+"SelfAttestationRegistry": "./cadence/contracts/SelfAttestationRegistry.cdc",
+"SubscriptionNFT": "./cadence/contracts/SubscriptionNFT.cdc",
+"SubscriptionNFTSimple": "./cadence/contracts/SubscriptionNFTSimple.cdc"
+},
+"networks": {
+"emulator": "127.0.0.1:3569",
+"mainnet": "access.mainnet.nodes.onflow.org:9000",
+"testnet": "access.testnet.nodes.onflow.org:9000"
+},
+"accounts": {
+"emulator-account": {
+    "address": "f8d6e0586b0a20c7",
+    "key": "11c5dfdeb0ff03a7a73ef39788563b62c89adea67bbb21ab95e5f710bd1d40b7"
+},
+"harshpro": {
+    "address": "1635dff04f103087",
+    "key": {
+        "type": "hex",
+        "signatureAlgorithm": "ECDSA_secp256k1",
+        "hashAlgorithm": "SHA2_256",
+        "privateKey": "a25283972e2496e439e587bd9dc6a76260afc0aebb4286b9916fc45be37b3296"
+    }
+}
+},
+"deployments": {
+"testnet": {
+    "harshpro": [
+        "FlowPassNFT",
+        "DelegationNFT",
+        "SelfAttestationRegistry",
+        "SubscriptionNFT",
+        "NetflixNFT",
+        "NetflixNFTSimple",
+        "SubscriptionNFTSimple"
+    ]
+}
+}
+}
