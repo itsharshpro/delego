@@ -17,7 +17,9 @@ const WalletConnect: React.FC = () => {
         className="btn-primary flex items-center space-x-2 disabled:opacity-50"
       >
         <Wallet className="w-5 h-5" />
-        <span>{loading ? 'Connecting...' : 'Connect Wallet'}</span>
+        <span>
+          {loading ? 'Connecting...' : 'Connect Wallet'}
+        </span>
       </button>
     );
   }
@@ -27,7 +29,7 @@ const WalletConnect: React.FC = () => {
       <div className="flex items-center space-x-2 bg-gray-800 px-4 py-2 rounded-lg">
         <User className="w-4 h-4 text-green-400" />
         <span className="text-white font-mono text-sm">
-          {formatAddress(user.addr)}
+          {formatAddress(user?.addr || '')}
         </span>
       </div>
 

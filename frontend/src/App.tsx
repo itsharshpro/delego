@@ -1,16 +1,15 @@
 
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import { Home, Search, User, Plus, TrendingUp, Share2 } from 'lucide-react';
+import { Home, Search, User, Plus, TrendingUp } from 'lucide-react';
 
 // Components
-import WalletConnect from './components/WalletConnect';
+import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import Marketplace from './components/Marketplace';
 import MySubscriptions from './components/MySubscriptions';
 import AddSubscription from './components/AddSubscription';
 import Profile from './components/Profile';
-import NetflixAccessPage from './components/NetflixAccessPage';
 
 // Context
 import { WalletProvider } from './contexts/WalletContext';
@@ -32,22 +31,7 @@ function App() {
         <Router>
           <div className="h-screen bg-[rgb(8,8,8)] text-white overflow-hidden flex flex-col">
             {/* Header */}
-            <header className="bg-gradient-to-r from-purple-900/20 to-blue-900/20 border-b border-gray-800/50 px-6 py-4 backdrop-blur-sm">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-3">
-                  <div className="p-2 bg-gradient-to-br from-purple-500 to-blue-500 rounded-xl">
-                    <Share2 className="w-6 h-6 text-white" />
-                  </div>
-                  <div>
-                    <h1 className="text-xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-                      Delego
-                    </h1>
-                    <p className="text-xs text-gray-400">Share & Rent Subscriptions</p>
-                  </div>
-                </div>
-                <WalletConnect />
-              </div>
-            </header>
+            <Header />
 
             <div className="flex flex-1 overflow-hidden">
               {/* Sidebar Navigation */}
