@@ -14,6 +14,7 @@ import Profile from './components/Profile';
 // Context
 import { WalletProvider } from './contexts/WalletContext';
 import { FlowProvider } from './contexts/FlowContext';
+import { SubscriptionProvider } from './contexts/SubscriptionContext';
 
 function App() {
   const [activeTab, setActiveTab] = useState('dashboard');
@@ -28,6 +29,7 @@ function App() {
   return (
     <FlowProvider>
       <WalletProvider>
+        <SubscriptionProvider>
         <Router>
           <div className="h-screen bg-[rgb(8,8,8)] text-white overflow-hidden flex flex-col">
             {/* Header */}
@@ -78,6 +80,7 @@ function App() {
             </div>
           </div>
         </Router>
+        </SubscriptionProvider>
       </WalletProvider>
     </FlowProvider>
   );

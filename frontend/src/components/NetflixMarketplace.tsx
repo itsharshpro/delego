@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Play, Clock, Star, Users, Shield, Search } from 'lucide-react';
 import NetflixAccess from './NetflixAccess';
-import { NetflixService } from '../services/NetflixService';
 import { useWallet } from '../contexts/WalletContext';
+import { useSubscriptions } from '../contexts/SubscriptionContext';
+import TransactionConfirmDialog from './TransactionConfirmDialog';
 
 interface NetflixSubscription {
   id: string;
@@ -32,6 +33,14 @@ const NetflixMarketplace: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterPlan, setFilterPlan] = useState<string>('');
   const [loading, setLoading] = useState(false);
+  const [showTransactionDialog, setShowTransactionDialog] = useState(false);
+  const [transactionLoading, setTransactionLoading] = useState(false);
+  const [pendingRental, setPendingRental] = useState<{
+    subscription: NetflixSubscription;
+    duration: number;
+    unit: 'minutes' | 'hours' | 'days';
+    cost: number;
+  } | null>(null);
 
   useEffect(() => {
     loadNetflixSubscriptions();
@@ -112,40 +121,55 @@ const NetflixMarketplace: React.FC = () => {
   const availableSubscriptions = filteredSubscriptions.filter(sub => !sub.currentRental);
   const rentedSubscriptions = filteredSubscriptions.filter(sub => sub.currentRental);
 
-  const handleRentSubscription = async (subscription: NetflixSubscription, minutes: number, unit: 'minutes' | 'hours' | 'days') => {
+  const handleRentSubscription = async (subscription: NetflixSubscription, duration: number, unit: 'minutes' | 'hours' | 'days') => {
     if (!isConnected || !user?.addr) {
       alert('Please connect your wallet first');
       return;
     }
 
+    // Calculate cost based on unit
+    let totalCost: number;
+    
+    switch (unit) {
+      case 'minutes':
+        totalCost = subscription.plan.pricePerMinute * duration;
+        break;
+      case 'hours':
+        totalCost = subscription.plan.pricePerHour * duration;
+        break;
+      case 'days':
+        totalCost = subscription.plan.pricePerDay * duration;
+        break;
+    }
+
+    // Set up pending rental and show transaction dialog
+    setPendingRental({
+      subscription,
+      duration,
+      unit,
+      cost: totalCost
+    });
+    setShowTransactionDialog(true);
+  };
+
+  const handleTransactionConfirm = async () => {
+    if (!pendingRental) return;
+    
+    setTransactionLoading(true);
+
     try {
-      setLoading(true);
+      const { subscription, duration, unit, cost } = pendingRental;
       
-      // Calculate cost based on unit
-      let totalCost: number;
-      let durationMs: number;
-      
-      switch (unit) {
-        case 'minutes':
-          totalCost = subscription.plan.pricePerMinute * minutes;
-          durationMs = minutes * 60 * 1000;
-          break;
-        case 'hours':
-          totalCost = subscription.plan.pricePerHour * minutes;
-          durationMs = minutes * 60 * 60 * 1000;
-          break;
-        case 'days':
-          totalCost = subscription.plan.pricePerDay * minutes;
-          durationMs = minutes * 24 * 60 * 60 * 1000;
-          break;
-      }
-      
-      // In real implementation, this would create a blockchain transaction
-      console.log(`Renting Netflix ${subscription.plan.name} for ${minutes} ${unit}`);
-      console.log(`Total cost: ${totalCost.toFixed(4)} FLOW`);
+      // Simulate blockchain transaction
+      console.log(`Renting Netflix ${subscription.plan.name} for ${duration} ${unit}`);
+      console.log(`Total cost: ${cost.toFixed(4)} FLOW`);
       
       // Simulate rental creation
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      const durationMs = unit === 'minutes' ? duration * 60 * 1000 :
+                        unit === 'hours' ? duration * 60 * 60 * 1000 :
+                        duration * 24 * 60 * 60 * 1000;
       
       // Update subscription with rental info
       const updatedSubs = subscriptions.map(sub => 
@@ -153,7 +177,7 @@ const NetflixMarketplace: React.FC = () => {
           ? {
               ...sub,
               currentRental: {
-                renter: user.addr!,
+                renter: user?.addr || 'demo-user',
                 endTime: Date.now() + durationMs
               }
             }
@@ -163,13 +187,23 @@ const NetflixMarketplace: React.FC = () => {
       setSubscriptions(updatedSubs);
       setSelectedSubscription(updatedSubs.find(sub => sub.id === subscription.id) || null);
       
-      alert(`Successfully rented Netflix ${subscription.plan.name} for ${minutes} ${unit}!`);
+      // Close dialog and reset states
+      setShowTransactionDialog(false);
+      setPendingRental(null);
+      setTransactionLoading(false);
+      
+      alert(`Successfully rented Netflix ${subscription.plan.name} for ${duration} ${unit}!`);
     } catch (error) {
       console.error('Rental failed:', error);
       alert('Failed to rent subscription. Please try again.');
-    } finally {
-      setLoading(false);
+      setTransactionLoading(false);
     }
+  };
+
+  const handleTransactionCancel = () => {
+    setShowTransactionDialog(false);
+    setPendingRental(null);
+    setTransactionLoading(false);
   };
 
   const renderStars = (rating: number) => {
@@ -198,7 +232,8 @@ const NetflixMarketplace: React.FC = () => {
     const isRenter = user?.addr === selectedSubscription.currentRental?.renter;
     
     return (
-      <div className="p-6 space-y-6">
+      <div className="h-full overflow-auto">
+        <div className="p-6 space-y-6">
         <div className="flex items-center space-x-4">
           <button
             onClick={() => setSelectedSubscription(null)}
@@ -223,12 +258,14 @@ const NetflixMarketplace: React.FC = () => {
           rentalEndTime={selectedSubscription.currentRental?.endTime}
           netflixPlan={selectedSubscription.plan}
         />
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="h-full overflow-auto">
+      <div className="p-6 space-y-6">
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold bg-gradient-to-r from-red-400 to-red-600 bg-clip-text text-transparent">
@@ -451,6 +488,21 @@ const NetflixMarketplace: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Transaction Confirmation Dialog */}
+      <TransactionConfirmDialog
+        isOpen={showTransactionDialog}
+        onClose={handleTransactionCancel}
+        onConfirm={handleTransactionConfirm}
+        transactionType="rent"
+        details={{
+          subscriptionName: pendingRental ? `Netflix ${pendingRental.subscription.plan.name}` : '',
+          amount: pendingRental ? pendingRental.cost.toFixed(4) : '0',
+          duration: pendingRental ? `${pendingRental.duration} ${pendingRental.unit}` : '',
+        }}
+        loading={transactionLoading}
+      />
+      </div>
     </div>
   );
 };

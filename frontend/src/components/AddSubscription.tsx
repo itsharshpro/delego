@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { Eye, EyeOff, Check, AlertCircle, Upload } from 'lucide-react';
+import TransactionConfirmDialog from './TransactionConfirmDialog';
+import { useSubscriptions } from '../contexts/SubscriptionContext';
+import { useWallet } from '../contexts/WalletContext';
 
 interface SubscriptionForm {
   platform: string;
@@ -14,9 +17,12 @@ interface SubscriptionForm {
 }
 
 const AddSubscription = () => {
+  const { addSubscription } = useSubscriptions();
+  const { user } = useWallet();
   const [showPassword, setShowPassword] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [showTransactionDialog, setShowTransactionDialog] = useState(false);
+  const [transactionLoading, setTransactionLoading] = useState(false);
   const [form, setForm] = useState<SubscriptionForm>({
     platform: '',
     planName: '',
@@ -85,22 +91,46 @@ const AddSubscription = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
+    if (!isFormValid()) return;
+    
+    // Show transaction confirmation dialog
+    setShowTransactionDialog(true);
+  };
+
+  const handleTransactionConfirm = async () => {
+    setTransactionLoading(true);
 
     try {
-      // TODO: Implement blockchain transaction to mint NFT with subscription data
+      // Simulate blockchain transaction to mint NFT with subscription data
       console.log('Creating subscription NFT:', form);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Simulate transaction processing time
+      await new Promise(resolve => setTimeout(resolve, 3000));
       
-      // Reset form and show success
+      // Add subscription to the global state
+      addSubscription({
+        platform: form.platform,
+        planName: form.planName,
+        price: form.price,
+        duration: form.duration,
+        description: form.description,
+        features: form.features,
+        owner: user?.addr || 'demo-user',
+      });
+      
+      // Close dialog and show success
+      setShowTransactionDialog(false);
+      setTransactionLoading(false);
       setCurrentStep(4);
     } catch (error) {
       console.error('Error creating subscription:', error);
-    } finally {
-      setLoading(false);
+      setTransactionLoading(false);
     }
+  };
+
+  const handleTransactionCancel = () => {
+    setShowTransactionDialog(false);
+    setTransactionLoading(false);
   };
 
   const isFormValid = () => {
@@ -434,32 +464,37 @@ const AddSubscription = () => {
                   type="button"
                   onClick={() => setCurrentStep(2)}
                   className="flex-1 px-6 py-3 bg-gray-800 text-gray-300 rounded-xl hover:bg-gray-700 transition-colors"
-                  disabled={loading}
+                  disabled={transactionLoading}
                 >
                   Back
                 </button>
                 <button
                   type="submit"
-                  disabled={!isFormValid() || loading}
+                  disabled={!isFormValid() || transactionLoading}
                   className="flex-1 px-6 py-3 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-purple-500/25 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
-                  {loading ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                      <span>Creating NFT...</span>
-                    </>
-                  ) : (
-                    <>
-                      <Upload className="w-5 h-5" />
-                      <span>Create Subscription NFT</span>
-                    </>
-                  )}
+                  <Upload className="w-5 h-5" />
+                  <span>Create Subscription NFT</span>
                 </button>
               </div>
             </form>
           </div>
         )}
       </div>
+
+      {/* Transaction Confirmation Dialog */}
+      <TransactionConfirmDialog
+        isOpen={showTransactionDialog}
+        onClose={handleTransactionCancel}
+        onConfirm={handleTransactionConfirm}
+        transactionType="mint"
+        details={{
+          service: form.platform,
+          amount: '0.05', // Minting fee
+          subscriptionName: `${form.platform} ${form.planName}`,
+        }}
+        loading={transactionLoading}
+      />
     </div>
   );
 };
